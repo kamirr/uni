@@ -57,7 +57,11 @@ public:
     return this->name;
   }
 
-  int get_exp() const {
+  int get_strength() const {
+    return this->strength;
+  }
+
+  int& get_exp() {
     return this->experience;
   }
 
@@ -67,7 +71,8 @@ public:
       << "Dexterity:    " << this->dexterity << "\n"
       << "Endurance:    " << this->endurance << "\n"
       << "Intelligence: " << this->intelligence << "\n"
-      << "Charisma:     " << this->charisma << std::endl;
+      << "Charisma:     " << this->charisma << "\n"
+      << "Experience:   " << this->experience << std::endl;
   }
 
   friend class Mage;

@@ -43,7 +43,7 @@ int main() {
     } else if(cmd == "save") {
       ui_save(characters);
     } else if(cmd == "monsters") {
-      ui_monsters();
+      ui_monsters(characters);
     }
   }
 

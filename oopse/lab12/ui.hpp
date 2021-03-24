@@ -9,6 +9,7 @@
 #include "character.hpp"
 #include "monster.hpp"
 #include "hero.hpp"
+#include "fight.hpp"
 
 Character ui_create() {
   std::string name;
@@ -119,9 +120,49 @@ void ui_save(const std::vector<Character> &chrs) {
   selected->save(file);
 }
 
-void ui_monsters() {
+void ui_fight(std::vector<Character> &chrs, Monster monsters[], const int monster_n) {
+  if(chrs.size() == 0) {
+    std::cout << "No characters available to fight!" << std::endl;
+    return;
+  }
+
+  ui_list(chrs);
+
+  std::string name;
+  auto selected = chrs.end();
+  while(selected == chrs.end()) {
+    std::cout << "Enter character name: ";
+    std::cin >> name;
+
+    selected = std::find_if(
+      chrs.begin(),
+      chrs.end(),
+      [&](const auto &c) {
+        return c.get_name() == name;
+      }
+    );
+  }
+
+  auto selected_monster = monsters + monster_n;
+  while(selected_monster == monsters + monster_n) {
+    std::cout << "Enter monster name: ";
+    std::cin >> name;
+
+    selected_monster = std::find_if(
+      monsters,
+      monsters + monster_n,
+      [&](const auto &c) {
+        return c.get_name() == name;
+      }
+    );
+  }
+
+  fight(*selected, *selected_monster);
+}
+
+void ui_monsters(std::vector<Character> &chrs) {
   /* default constructor randomizes stats */
-  const Monster monsters[5];
+  Monster monsters[5];
   std::string ans;
 
   for(const auto &m: monsters) {
@@ -141,6 +182,17 @@ void ui_monsters() {
     for(const auto &m: monsters) {
       m.save(ofile);
     }
+  }
+
+  std::cout << "Do you wish to fight any of the monsters? [y/n]: ";
+  std::cin >> ans;
+  while(ans != "y" && ans != "Y" && ans != "n" && ans != "N") {
+    std::cout << "[y/n]: ";
+    std::cin >> ans;
+  }
+
+  if(ans == "y" || ans == "Y") {
+    ui_fight(chrs, monsters, 5);
   }
 }
 

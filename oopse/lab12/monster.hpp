@@ -21,6 +21,7 @@ public:
     this->endurance = stat_dist(rng);
     this->intelligence = stat_dist(rng);
     this->charisma = stat_dist(rng);
+    this->experience = stat_dist(rng);
   }
 };
 
